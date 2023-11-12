@@ -83,7 +83,7 @@ int main() {
     vector<int> cliqueMaximo = EncontrarCliqueMaxima(grafo, numVertices);
     sort(cliqueMaximo.begin(),cliqueMaximo.end(), [](auto& i, auto& j){return i > j;});
 
-    cout << "[Abordagem-Exaustiva] Clique's Tamanho: "<< cliqueMaximo.size() <<" Maximal Clique: ";
+    cout << "Abordagem-Exaustiva com Clique de Tamanho: "<< cliqueMaximo.size() <<" Maximal Clique: ";
     for (int v : cliqueMaximo) {
         cout << v+1 << " ";
     }
