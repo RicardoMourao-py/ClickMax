@@ -1,14 +1,37 @@
 #include <iostream>
+#include <fstream>
 #include <vector>
-
+#include <string>
+#include <cmath>
+#include <algorithm>
 using namespace std;
 
-vector<int> EncontrarCliqueMaxima(vector<vector<int>> grafo, int numVertices) {
+// Função para ler o grafo a partir do arquivo de entrada
+vector<vector<int>> LerGrafo(const string& nomeArquivo, int& numVertices) {
+    ifstream arquivo(nomeArquivo);
+    int numArestas;
+    arquivo >> numVertices >> numArestas;
+
+    vector<vector<int>> grafo(numVertices, vector<int>(numVertices, 0));
+
+    for (int i = 0; i < numArestas; ++i) {
+        int u, v;
+        arquivo >> u >> v;
+        grafo[u - 1][v - 1] = 1;
+        grafo[v - 1][u - 1] = 1;  // O grafo é não direcionado
+    }
+
+    arquivo.close();
+
+    return grafo;
+}
+
+vector<int> EncontrarCliqueMaxima(vector<vector<int>>& grafo, int numVertices) {
     vector<int> cliqueMaxima;
     vector<int> candidatos;
 
     // Inicialmente, todos os nós são candidatos
-    for (int i = 0; i < numVertices; i++) {
+    for (int i = 0; i < numVertices; ++i) {
         candidatos.push_back(i);
     }
 
@@ -51,21 +74,18 @@ vector<int> EncontrarCliqueMaxima(vector<vector<int>> grafo, int numVertices) {
     return cliqueMaxima;
 }
 
+
 int main() {
-    int numVertices = 5;
-    vector<vector<int>> grafo = {
-        {0, 1, 1, 0, 0},
-        {1, 0, 1, 1, 0},
-        {1, 1, 0, 1, 0},
-        {0, 1, 1, 0, 1},
-        {0, 0, 0, 1, 0}
-    };
+    int numVertices;
+    vector<vector<int>> grafo;
 
-    vector<int> cliqueMaxima = EncontrarCliqueMaxima(grafo, numVertices);
+    grafo = LerGrafo("grafo.txt", numVertices);
+    vector<int> cliqueMaximo = EncontrarCliqueMaxima(grafo, numVertices);
+    sort(cliqueMaximo.begin(),cliqueMaximo.end(), [](auto& i, auto& j){return i > j;});
 
-    cout << "Clique Máxima: ";
-    for (int node : cliqueMaxima) {
-        cout << node << " ";
+    cout << "[Abordagem-Exaustiva] Clique's Tamanho: "<< cliqueMaximo.size() <<" Maximal Clique: ";
+    for (int v : cliqueMaximo) {
+        cout << v+1 << " ";
     }
     cout << endl;
 

@@ -1,7 +1,7 @@
 import networkx as nx
 
 # Nome do arquivo de entrada
-nome_arquivo = "seu_arquivo.txt"
+nome_arquivo = "grafo.txt"
 
 # Abrir o arquivo e pular a primeira linha
 with open(nome_arquivo, 'r') as arquivo:
@@ -16,8 +16,8 @@ cliques_maximais = list(nx.find_cliques(G))
 # Encontrar a clique máxima (a maior)
 clique_maxima = max(cliques_maximais, key=len)
 
-print("Cliques maximais encontradas:")
-for clique in cliques_maximais:
-    print(clique)
+# print("Cliques maximais encontradas:")
+# for clique in cliques_maximais:
+#     print(clique)
 
-print("Clique máxima encontrada:", clique_maxima)
+print("Clique máxima encontrada:", sorted(map(int,clique_maxima)))
